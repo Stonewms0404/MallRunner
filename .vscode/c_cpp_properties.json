@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "name": "MallRunnerEditor Editor Win64 Development (MallRunner)",
+            "compilerPath": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++20",
+            "intelliSenseMode": "msvc-x64",
+            "compileCommands": "C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\.vscode\\compileCommands_MallRunner.json"
+        },
+        {
+            "name": "Win32",
+            "compilerPath": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++20",
+            "intelliSenseMode": "msvc-x64",
+            "compileCommands": "C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\.vscode\\compileCommands_Default.json"
+        }
+    ],
+    "version": 4
+}

@@ -1,0 +1,170 @@
+[
+	{
+		"file": "C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\Source\\MallRunner\\MallRunner.Build.cs",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\.vscode\\compileCommands_MallRunner\\MallRunner.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\Source\\MallRunner\\MallRunner.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\.vscode\\compileCommands_MallRunner\\MallRunner.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\Source\\MallRunner\\MallRunner.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\.vscode\\compileCommands_MallRunner\\MallRunner.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\Source\\MallRunner\\MallRunnerCharacter.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\.vscode\\compileCommands_MallRunner\\MallRunner.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\Source\\MallRunner\\MallRunnerCharacter.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\.vscode\\compileCommands_MallRunner\\MallRunner.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\Source\\MallRunner\\MallRunnerGameMode.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\.vscode\\compileCommands_MallRunner\\MallRunner.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\Source\\MallRunner\\MallRunnerGameMode.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\.vscode\\compileCommands_MallRunner\\MallRunner.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\Source\\MallRunner\\MallRunnerPlayerController.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\.vscode\\compileCommands_MallRunner\\MallRunner.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\Source\\MallRunner\\MallRunnerPlayerController.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\.vscode\\compileCommands_MallRunner\\MallRunner.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\Source\\MallRunner\\MallRunnerProjectile.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\.vscode\\compileCommands_MallRunner\\MallRunner.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\Source\\MallRunner\\MallRunnerProjectile.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\.vscode\\compileCommands_MallRunner\\MallRunner.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\Source\\MallRunner\\Private\\MainCharacter.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\.vscode\\compileCommands_MallRunner\\MallRunner.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\Source\\MallRunner\\Private\\MainHUD.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\.vscode\\compileCommands_MallRunner\\MallRunner.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\Source\\MallRunner\\Private\\MainPlayerController.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\.vscode\\compileCommands_MallRunner\\MallRunner.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\Source\\MallRunner\\Public\\MainCharacter.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\.vscode\\compileCommands_MallRunner\\MallRunner.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\Source\\MallRunner\\Public\\MainHUD.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\.vscode\\compileCommands_MallRunner\\MallRunner.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\Source\\MallRunner\\Public\\MainPlayerController.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\.vscode\\compileCommands_MallRunner\\MallRunner.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\Source\\MallRunner\\TP_PickUpComponent.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\.vscode\\compileCommands_MallRunner\\MallRunner.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\Source\\MallRunner\\TP_PickUpComponent.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\.vscode\\compileCommands_MallRunner\\MallRunner.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\Source\\MallRunner\\TP_WeaponComponent.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\.vscode\\compileCommands_MallRunner\\MallRunner.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\Source\\MallRunner\\TP_WeaponComponent.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Stone Williams\\Documents\\Unreal Projects\\MallRunner\\.vscode\\compileCommands_MallRunner\\MallRunner.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	}
+]
