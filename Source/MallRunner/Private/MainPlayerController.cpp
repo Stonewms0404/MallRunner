@@ -62,6 +62,19 @@ void AMainPlayerController::OnPossess(APawn* aPawn)
 		EnhancedInputComponent->BindAction(ActionCancel, ETriggerEvent::Triggered,
 			this, &AMainPlayerController::HandleCancel);
 	}
+
+	SetPlayerControllerSettings();
+	controllerStats = new AMainCharacter::PlayerStats();
+
+	controllerStats->crouchSpeed = baseCrouchSpeed;
+	controllerStats->slideSpeed = baseSlide;
+	controllerStats->slideFriction = baseSlideFriction;
+	controllerStats->sprintSpeed = baseSprint;
+	controllerStats->walkSpeed = baseSpeed;
+	controllerStats->weight = baseWeight;
+	controllerStats->gravityScale = baseGravityScale;
+
+	PlayerCharacter->SetBaseVariables(controllerStats);
 }
 
 void AMainPlayerController::OnUnPossess()
@@ -71,18 +84,24 @@ void AMainPlayerController::OnUnPossess()
 	Super::OnUnPossess();
 }
 
+void AMainPlayerController::SetPlayerControllerSettings()
+{
+	PlayerCharacter->charMoveComp->MaxWalkSpeed = baseSpeed;
+	PlayerCharacter->charMoveComp->MaxWalkSpeedCrouched = baseCrouchSpeed;
+	PlayerCharacter->charMoveComp->JumpZVelocity = baseJumpHeight;
+	PlayerCharacter->charMoveComp->BrakingFriction = baseBreakingFriction;
+	PlayerCharacter->charMoveComp->AirControl = baseAirControl;
+	PlayerCharacter->charMoveComp->MaxAcceleration = baseMaxAcceleration;
+	PlayerCharacter->charMoveComp->GravityScale = baseGravityScale;
+
+}
+
 void AMainPlayerController::HandleMove(const FInputActionValue & InputActionValue)
 {
 	const FVector2D MovementVector = InputActionValue.Get<FVector2D>();
 
-	if (bIsSprinting) {
-		PlayerCharacter->AddMovementInput(PlayerCharacter->GetActorForwardVector(), Speed * SprintMultiplier * MovementVector.Y);
-		PlayerCharacter->AddMovementInput(PlayerCharacter->GetActorRightVector(), MovementVector.X);
-	}
-	else {
-		PlayerCharacter->AddMovementInput(PlayerCharacter->GetActorForwardVector(), Speed * MovementVector.Y);
-		PlayerCharacter->AddMovementInput(PlayerCharacter->GetActorRightVector(), MovementVector.X);
-	}
+	PlayerCharacter->AddMovementInput(PlayerCharacter->GetActorForwardVector(), MovementVector.Y);
+	PlayerCharacter->AddMovementInput(PlayerCharacter->GetActorRightVector(), MovementVector.X);
 }
 
 void AMainPlayerController::HandleLook(const FInputActionValue& InputActionValue)
@@ -95,28 +114,54 @@ void AMainPlayerController::HandleLook(const FInputActionValue& InputActionValue
 
 void AMainPlayerController::HandleJump()
 {
+	if (PlayerCharacter->stats->isSliding)
+		PlayerCharacter->charMoveComp->MaxWalkSpeed = PlayerCharacter->stats->sprintSpeed * 2;
+	PlayerCharacter->stats->isJumping = false;
 	PlayerCharacter->UnCrouch();
+	PlayerCharacter->stats->isCrouching = false;
 	PlayerCharacter->Jump();
 }
 
 void AMainPlayerController::HandleCrouch()
 {
-	if (bIsCrouching) {
-		PlayerCharacter->UnCrouch();
+	PlayerCharacter->stats->isSprinting = false;
+	if (AMainCharacter::VectorToFloat(PlayerCharacter->charMoveComp->Velocity) < PlayerCharacter->stats->walkSpeed / 2.0f) {
+		if (PlayerCharacter->stats->isCrouching) {
+			PlayerCharacter->ChangeMoveSpeed(PlayerCharacter->stats->walkSpeed);
+			PlayerCharacter->UnCrouch();
+		}
+		else {
+			PlayerCharacter->ChangeCrouchSpeed(PlayerCharacter->stats->crouchSpeed);
+			PlayerCharacter->Crouch();
+		}
 	}
 	else {
-		PlayerCharacter->Crouch();
+		if (PlayerCharacter->stats->isCrouching) {
+			PlayerCharacter->ChangeMoveSpeed(PlayerCharacter->stats->walkSpeed);
+			PlayerCharacter->UnCrouch();
+		}
+		else {
+			PlayerCharacter->ChangeCrouchSpeed(PlayerCharacter->stats->slideSpeed);
+			PlayerCharacter->Crouch();
+		}
 	}
-	bIsCrouching = !bIsCrouching;
+	PlayerCharacter->stats->isCrouching = !PlayerCharacter->stats->isCrouching;
 }
 
 void AMainPlayerController::HandleSprint()
 {
-	bIsSprinting = !bIsSprinting;
+	PlayerCharacter->stats->isSprinting = !PlayerCharacter->stats->isSprinting;
+	if (PlayerCharacter->stats->isCrouching) {
+		PlayerCharacter->stats->isCrouching = false;
+		PlayerCharacter->UnCrouch();
+	}
+	PlayerCharacter->ChangeMoveSpeed(PlayerCharacter->stats->isSprinting ? PlayerCharacter->stats->sprintSpeed : PlayerCharacter->stats->walkSpeed);
 }
 
-void AMainPlayerController::HandleBash()
-{
+void AMainPlayerController::HandleBash() {
+	if (!PlayerCharacter->stats->isGrounded) {
+		PlayerCharacter->stats->isBashing = true;
+	}
 }
 
 void AMainPlayerController::HandleCancel()
