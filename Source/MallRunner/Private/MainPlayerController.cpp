@@ -58,6 +58,11 @@ void AMainPlayerController::OnPossess(APawn* aPawn)
 			this, &AMainPlayerController::HandleBash);
 	}
 
+	if (ActionSlam) {
+		EnhancedInputComponent->BindAction(ActionSlam, ETriggerEvent::Triggered,
+			this, &AMainPlayerController::HandleSlam);
+	}
+
 	if (ActionCancel) {
 		EnhancedInputComponent->BindAction(ActionCancel, ETriggerEvent::Triggered,
 			this, &AMainPlayerController::HandleCancel);
@@ -159,9 +164,16 @@ void AMainPlayerController::HandleSprint()
 }
 
 void AMainPlayerController::HandleBash() {
-	if (!PlayerCharacter->stats->isGrounded) {
+	if (!PlayerCharacter->stats->isBashing) {
 		PlayerCharacter->stats->isBashing = true;
+		PlayerCharacter->stats->isSprinting = true;
+		PlayerCharacter->Bash();
 	}
+}
+
+void AMainPlayerController::HandleSlam() {
+	if (!PlayerCharacter->stats->isSlaming)
+		PlayerCharacter->stats->isSlaming = true;
 }
 
 void AMainPlayerController::HandleCancel()

@@ -54,6 +54,12 @@ public:
 		Category = "Player Movement|Character Movement")
 	UInputAction* ActionBash = nullptr;
 
+	//The Input Action for Bashing.
+	UPROPERTY(EditDefaultsOnly,
+		BlueprintReadOnly,
+		Category = "Player Movement|Character Movement")
+	UInputAction* ActionSlam = nullptr;
+
 	//The Input Action for Canceling/Pausing.
 	UPROPERTY(EditDefaultsOnly,
 		BlueprintReadOnly,
@@ -87,7 +93,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats")
 	float baseGravityScale = 3;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats")
-	int baseWeight = 1;
+	int baseWeight = 5;
 
 	AMainCharacter::PlayerStats* controllerStats;
 
@@ -105,6 +111,7 @@ protected:
 	void HandleCrouch();
 	void HandleSprint();
 	void HandleBash();
+	void HandleSlam();
 	void HandleCancel();
 
 

@@ -29,18 +29,22 @@ public:
 			isSliding = false;
 			isSprinting = false;
 			isGrounded = false;
-			isBashing = false;
+			isSlaming = false;
 			isJumping = false;
+			isBashing = false;
 			weight = 1;
 			gravityScale = 1;
 		}
 
 		float walkSpeed, sprintSpeed, crouchSpeed, slideFriction, slideSpeed, gravityScale;
-		bool isCrouching, isSliding, isSprinting, isGrounded, isBashing, isJumping;
+		bool isCrouching, isSliding, isSprinting, isGrounded, isBashing, isSlaming, isJumping;
 		int weight;
 
-		float GetBashingSpeed() const {
+		float GetSlamingSpeed() const {
 			return weight * gravityScale * 100;
+		}
+		float GetBashingSpeed() const {
+			return (sprintSpeed * 15) / weight;
 		}
 	};
 	AMainCharacter();
@@ -50,6 +54,8 @@ public:
 	void ChangeCrouchSpeed(float);
 	void SetBaseVariables(PlayerStats*);
 
+	void Bash();
+
 	static float VectorToFloat(FVector vec) {
 		return sqrtf(powf(vec.X, 2) + powf(vec.Y, 2));
 	}
@@ -58,10 +64,14 @@ public:
 			return b + (a - b) * t;
 		return  a + (b - a) * t;
 	}
+	static float SlowToSpeed(float a, float amount) {
+		a -= amount;
+		return a;
+	}
 
 protected:
 	void Slide();
-	void Bash();
+	void Slam();
 
 protected:
 	// Called when the game starts or when spawned

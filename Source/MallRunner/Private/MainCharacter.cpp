@@ -53,9 +53,18 @@ void AMainCharacter::Tick(float DeltaTime)
 			charMoveComp->MaxWalkSpeedCrouched = stats->crouchSpeed;
 	}
 
+	if (stats->isSlaming) {
+		Slam();
+		stats->isSlaming = stats->isGrounded;
+	}
+
 	if (stats->isBashing) {
-		Bash();
-		stats->isBashing = stats->isGrounded;
+		if (VectorToFloat(charMoveComp->Velocity) < stats->sprintSpeed) {
+			stats->isBashing = false;
+			charMoveComp->MaxWalkSpeed = stats->sprintSpeed;
+		}
+		else
+			charMoveComp->MaxWalkSpeed = SlowToSpeed(charMoveComp->MaxWalkSpeed, 5);
 	}
 }
 
@@ -81,10 +90,16 @@ void AMainCharacter::SetBaseVariables(PlayerStats* newStats) {
 
 void AMainCharacter::Slide() {
 	charMoveComp->MaxWalkSpeedCrouched =
-		charMoveComp->MaxWalkSpeedCrouched < stats->crouchSpeed ? stats->crouchSpeed : VectorToFloat(charMoveComp->Velocity) - stats->slideFriction;
+		charMoveComp->MaxWalkSpeedCrouched < stats->crouchSpeed ? stats->crouchSpeed : SlowToSpeed(VectorToFloat(charMoveComp->Velocity), stats->slideFriction);
+}
+
+void AMainCharacter::Slam() {
+	FVector* vec = new FVector(0, 0, charMoveComp->Velocity.Z - stats->GetSlamingSpeed());
+	charMoveComp->Velocity = *vec;
 }
 
 void AMainCharacter::Bash() {
-	FVector* vec = new FVector(0, 0, charMoveComp->Velocity.Z - stats->GetBashingSpeed());
-	charMoveComp->Velocity = *vec;
+	FVector vec = GetActorForwardVector();
+
+	charMoveComp->Velocity = vec * stats->GetBashingSpeed();
 }
