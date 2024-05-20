@@ -93,6 +93,10 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats")
 	float baseGravityScale = 3;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats")
+	float baseCrouchHeight = 32;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats")
+	float baseCrouchHeightSpeed = 3;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats")
 	int baseWeight = 5;
 
 	AMainCharacter::PlayerStats* controllerStats;

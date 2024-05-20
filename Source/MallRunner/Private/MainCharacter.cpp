@@ -4,6 +4,7 @@
 #include "MainCharacter.h"
 #include "MainPlayerController.h"
 
+
 // Sets default values
 AMainCharacter::AMainCharacter()
 {
@@ -12,14 +13,12 @@ AMainCharacter::AMainCharacter()
 
 	charMoveComp = GetCharacterMovement();
 	stats = new PlayerStats();
-
 }
 
 // Called when the game starts or when spawned
 void AMainCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -29,7 +28,11 @@ void AMainCharacter::Tick(float DeltaTime)
 
 	stats->isGrounded = charMoveComp->IsMovingOnGround();
 
-	if (stats->isSprinting) {
+	if (stats->isCrouching) {
+		charMoveComp->MaxWalkSpeed = Lerp(charMoveComp->MaxWalkSpeed, stats->crouchSpeed, DeltaTime);
+	}
+
+	if (stats->isSprinting && !stats->isBashing) {
 		if (VectorToFloat(charMoveComp->Velocity) < stats->walkSpeed / 1.25f) {
 			stats->isSprinting = false;
 			ChangeMoveSpeed(stats->walkSpeed);
@@ -38,30 +41,24 @@ void AMainCharacter::Tick(float DeltaTime)
 
 	if (stats->isSliding && stats->isJumping) {
 		stats->isJumping = !stats->isGrounded;
-		if (charMoveComp->MaxWalkSpeed < stats->sprintSpeed)
+		if (charMoveComp->MaxWalkSpeed < stats->sprintSpeed) {
 			charMoveComp->MaxWalkSpeed = stats->sprintSpeed;
-		else
-			charMoveComp->MaxWalkSpeed = charMoveComp->MaxWalkSpeed - 10;
+			stats->isSprinting = true;
+			stats->isCrouching = false;
+			OnCancelSlide(stats->sprintSpeed);
+		}
 
 	}
 
-	if (charMoveComp->IsCrouching()) {
-		stats->isSliding = VectorToFloat(charMoveComp->Velocity) > stats->walkSpeed / 2;
-		if (stats->isSliding)
-			Slide();
-		else
-			charMoveComp->MaxWalkSpeedCrouched = stats->crouchSpeed;
-	}
-
-	if (stats->isSlaming) {
+	if (stats->isSlaming && !stats->isGrounded) {
 		Slam();
 		stats->isSlaming = stats->isGrounded;
 	}
 
-	if (stats->isBashing) {
-		if (VectorToFloat(charMoveComp->Velocity) < stats->sprintSpeed) {
+	if (stats->isBashing && stats->isGrounded) {
+		if (VectorToFloat(charMoveComp->Velocity) < 50) {
 			stats->isBashing = false;
-			charMoveComp->MaxWalkSpeed = stats->sprintSpeed;
+			charMoveComp->MaxWalkSpeed = stats->walkSpeed;
 		}
 		else
 			charMoveComp->MaxWalkSpeed = SlowToSpeed(charMoveComp->MaxWalkSpeed, 5);
@@ -88,9 +85,9 @@ void AMainCharacter::SetBaseVariables(PlayerStats* newStats) {
 	stats = newStats;
 }
 
-void AMainCharacter::Slide() {
-	charMoveComp->MaxWalkSpeedCrouched =
-		charMoveComp->MaxWalkSpeedCrouched < stats->crouchSpeed ? stats->crouchSpeed : SlowToSpeed(VectorToFloat(charMoveComp->Velocity), stats->slideFriction);
+void AMainCharacter::SetCrouching(bool value) {
+	stats->isCrouching = value;
+	OnCrouchChanged(!stats->isCrouching);
 }
 
 void AMainCharacter::Slam() {
@@ -99,7 +96,5 @@ void AMainCharacter::Slam() {
 }
 
 void AMainCharacter::Bash() {
-	FVector vec = GetActorForwardVector();
-
-	charMoveComp->Velocity = vec * stats->GetBashingSpeed();
+	charMoveComp->Velocity = GetActorForwardVector() * stats->GetBashingSpeed();
 }

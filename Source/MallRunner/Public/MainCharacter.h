@@ -7,16 +7,13 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "MainCharacter.generated.h"
 
+
 UCLASS()
 class MALLRUNNER_API AMainCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
-	UCharacterMovementComponent* charMoveComp;
-
-
 	struct PlayerStats {
 	public:
 		PlayerStats() {
@@ -25,6 +22,8 @@ public:
 			crouchSpeed = 100;
 			slideFriction = 1;
 			slideSpeed = 1000;
+			crouchedHalfHeight = 40;
+			halfHeightSpeed = 1;
 			isCrouching = false;
 			isSliding = false;
 			isSprinting = false;
@@ -36,7 +35,7 @@ public:
 			gravityScale = 1;
 		}
 
-		float walkSpeed, sprintSpeed, crouchSpeed, slideFriction, slideSpeed, gravityScale;
+		float walkSpeed, sprintSpeed, crouchSpeed, slideFriction, slideSpeed, gravityScale, crouchedHalfHeight, halfHeightSpeed;
 		bool isCrouching, isSliding, isSprinting, isGrounded, isBashing, isSlaming, isJumping;
 		int weight;
 
@@ -47,15 +46,31 @@ public:
 			return (sprintSpeed * 15) / weight;
 		}
 	};
-	AMainCharacter();
+
+	// Events
+	UFUNCTION(BlueprintImplementableEvent, Category = "Player Movement|Events")
+	void OnCrouchChanged(const bool Crouching);
+	UFUNCTION(BlueprintImplementableEvent, Category = "Player Movement|Events")
+	void OnPlayerSlide(const float SlideSpeed, const float CrouchSpeed);
+	UFUNCTION(BlueprintImplementableEvent, Category = "Player Movement|Events")
+	void OnCancelSlide(const float Speed);
+
+	// Sets default values for this character's properties
+	UCharacterMovementComponent* charMoveComp;
 	PlayerStats* stats;
 
+	// Constructor
+	AMainCharacter();
+
+	// Methods
 	void ChangeMoveSpeed(float);
 	void ChangeCrouchSpeed(float);
 	void SetBaseVariables(PlayerStats*);
-
+	void SetCrouching(bool);
 	void Bash();
+	void Slam();
 
+	// Static Methods
 	static float VectorToFloat(FVector vec) {
 		return sqrtf(powf(vec.X, 2) + powf(vec.Y, 2));
 	}
@@ -68,10 +83,6 @@ public:
 		a -= amount;
 		return a;
 	}
-
-protected:
-	void Slide();
-	void Slam();
 
 protected:
 	// Called when the game starts or when spawned
