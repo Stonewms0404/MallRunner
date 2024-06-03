@@ -21,13 +21,15 @@ public:
 	//The Input Action for Moving.
 	UPROPERTY(EditDefaultsOnly,
 		BlueprintReadOnly,
-		Category = "Player Movement|Character Movement")
+		Category = "Player Movement|Character Movement",
+		meta = (ToolTip = "Move Input Action"))
 	UInputAction* ActionMove = nullptr;
 
 	//The Input Action for Looking.
 	UPROPERTY(EditDefaultsOnly,
 		BlueprintReadOnly,
-		Category = "Player Movement|Character Movement")
+		Category = "Player Movement|Character Movement",
+		meta = (ToolTip = "Look Input Action"))
 	UInputAction* ActionLook = nullptr;
 
 	//The Input Action for Jumping.
@@ -46,7 +48,7 @@ public:
 	UPROPERTY(EditDefaultsOnly,
 		BlueprintReadOnly,
 		Category = "Player Movement|Character Movement")
-	UInputAction* ActionSprint = nullptr;
+	UInputAction* ActionWalk = nullptr;
 
 	//The Input Action for Bashing.
 	UPROPERTY(EditDefaultsOnly,
@@ -58,7 +60,7 @@ public:
 	UPROPERTY(EditDefaultsOnly,
 		BlueprintReadOnly,
 		Category = "Player Movement|Character Movement")
-	UInputAction* ActionSlam = nullptr;
+	UInputAction* ActionFreeLook = nullptr;
 
 	//The Input Action for Canceling/Pausing.
 	UPROPERTY(EditDefaultsOnly,
@@ -72,60 +74,50 @@ public:
 
 protected:
 	//Variables to change in the inspector
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats")
-	float baseSpeed = 450;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats")
-	float baseSlide = 1400;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats")
-	float baseSlideFriction = 10;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats")
-	float baseSprint = 1200;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats")
-	float baseCrouchSpeed = 180;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats")
-	float baseJumpHeight = 1100;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats")
-	float baseBreakingFriction = 1;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats")
-	float baseAirControl = 0.75;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats")
-	float baseMaxAcceleration = 1500;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats")
-	float baseGravityScale = 3;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats")
-	float baseCrouchHeight = 32;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats")
-	float baseCrouchHeightSpeed = 3;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats")
-	int baseWeight = 5;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats|SpeedCharacter")
+	float baseSprintSpeed = 1000;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats|SpeedCharacter")
+	float baseWalkSpeed = 450;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats|SpeedCharacter")
+	float baseCrouchSpeed = 200;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats|SpeedCharacter")
+	float baseSlideSpeed = 1200;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats|SpeedCharacter")
+	float baseTraction = .75;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats|SpeedCharacter")
+	float baseHandling = .5;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats|SpeedCharacter")
+	float baseAccelerationSpeed = 450;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats|SpeedCharacter")
+	float baseNormalHeight = 80;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats|SpeedCharacter")
+	float baseCrouchHeight = 40;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats|SpeedCharacter")
+	float baseJumpVelocity = 1000;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats|SpeedCharacter")
+	float baseGravity = 3;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats|SpeedCharacter")
+	int baseWeight = 80;
 
-	AMainCharacter::PlayerStats* controllerStats;
-
-	//Booleans that might be useful to use in Blueprints
-	bool bIsCrouching = false;
-	bool bIsSprinting = false;
-	bool bIsMenuOpen = false;
-	bool bIsJumping = false;
-	bool bIsSliding = false;
 
 	//Movement handles
 	void HandleMove(const FInputActionValue& InputActionValue);
 	void HandleLook(const FInputActionValue& InputActionValue);
-	void HandleJump();
-	void HandleCrouch();
-	void HandleSprint();
+	void StartJump();
+	void EndJump();
+	void StartCrouch();
+	void EndCrouch();
+	void StartWalk();
+	void EndWalk();
 	void HandleBash();
-	void HandleSlam();
+	void StartFreeLook();
+	void EndFreeLook();
 	void HandleCancel();
-
 
 	virtual void OnPossess(APawn* aPawn) override;
 	virtual void OnUnPossess() override;
 
 private:
-
-	void SetPlayerControllerSettings();
-
 	//Used to store a reference to InputComponent cast to an EnhancedInputComponent.
 	UPROPERTY()
 	UEnhancedInputComponent* EnhancedInputComponent = nullptr;
@@ -134,6 +126,8 @@ private:
 	UPROPERTY()
 	AMainCharacter* PlayerCharacter = nullptr;
 
+	bool freeLooking = false, isPaused = false;
+	FVector forward;
 
 	GENERATED_BODY()
 };

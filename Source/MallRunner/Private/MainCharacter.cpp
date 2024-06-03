@@ -1,18 +1,13 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "MainCharacter.h"
 #include "MainPlayerController.h"
+#include "Components/CapsuleComponent.h"
 
-
-// Sets default values
 AMainCharacter::AMainCharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	stats = new PlayerStats;
 	charMoveComp = GetCharacterMovement();
-	stats = new PlayerStats();
 }
 
 // Called when the game starts or when spawned
@@ -21,48 +16,56 @@ void AMainCharacter::BeginPlay()
 	Super::BeginPlay();
 }
 
-// Called every frame
 void AMainCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	/*FVector vel = GetVelocity();
+	if (abs(vel.X) < 1 && abs(vel.Y) < 1)
+		*movementState = Idle;
+	else if (abs(vel.X) < stats->crouchSpeed && abs(vel.Y) < stats->crouchSpeed)
+		*movementState = Crouching;
+	else if (abs(vel.X) < stats->walkSpeed && abs(vel.Y) < stats->walkSpeed)
+		*movementState = Walking;
+	else if (abs(vel.X) < stats->sprintSpeed && abs(vel.Y) < stats->sprintSpeed)
+		*movementState = Sprinting;*/
+}
 
-	stats->isGrounded = charMoveComp->IsMovingOnGround();
+void AMainCharacter::InitializeStats(AMainCharacter::PlayerStats* newStats) {
+	stats = newStats;
+	charMoveComp->MaxWalkSpeed = stats->sprintSpeed;
+	charMoveComp->BrakingFriction = stats->handling;
+	charMoveComp->GroundFriction = stats->traction;
+	charMoveComp->GravityScale = stats->gravity;
+	charMoveComp->JumpZVelocity = stats->jumpHeight;
+	charMoveComp->MaxAcceleration = stats->accelerationSpeed;
+	GetCapsuleComponent()->SetCapsuleHalfHeight(stats->normalHeight);
+}
 
-	if (stats->isCrouching) {
-		charMoveComp->MaxWalkSpeed = Lerp(charMoveComp->MaxWalkSpeed, stats->crouchSpeed, DeltaTime);
+void AMainCharacter::OnEndBash() {
+	charMoveComp->MaxWalkSpeed = stats->sprintSpeed;
+}
+
+void AMainCharacter::AddItem(UItem* item) {
+	if (stats->item1 == nullptr)
+		stats->item1 = item;
+	else if (stats->item2 == nullptr)
+		stats->item2 = item;
+	else if (stats->item1->selected) {
+		delete stats->item2;
+		stats->item2 = item;
 	}
-
-	if (stats->isSprinting && !stats->isBashing) {
-		if (VectorToFloat(charMoveComp->Velocity) < stats->walkSpeed / 1.25f) {
-			stats->isSprinting = false;
-			ChangeMoveSpeed(stats->walkSpeed);
-		}
+	else if (stats->item2->selected) {
+		delete stats->item1;
+		stats->item1 = item;
 	}
+}
 
-	if (stats->isSliding && stats->isJumping) {
-		stats->isJumping = !stats->isGrounded;
-		if (charMoveComp->MaxWalkSpeed < stats->sprintSpeed) {
-			charMoveComp->MaxWalkSpeed = stats->sprintSpeed;
-			stats->isSprinting = true;
-			stats->isCrouching = false;
-			OnCancelSlide(stats->sprintSpeed);
-		}
+void AMainCharacter::GotCaught() {
 
-	}
+}
 
-	if (stats->isSlaming && !stats->isGrounded) {
-		Slam();
-		stats->isSlaming = stats->isGrounded;
-	}
+void AMainCharacter::AddCollectible() {
 
-	if (stats->isBashing && stats->isGrounded) {
-		if (VectorToFloat(charMoveComp->Velocity) < 50) {
-			stats->isBashing = false;
-			charMoveComp->MaxWalkSpeed = stats->walkSpeed;
-		}
-		else
-			charMoveComp->MaxWalkSpeed = SlowToSpeed(charMoveComp->MaxWalkSpeed, 5);
-	}
 }
 
 // Called to bind functionality to input
@@ -72,29 +75,3 @@ void AMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 }
 
-
-void AMainCharacter::ChangeMoveSpeed(float speed) {
-	charMoveComp->MaxWalkSpeed = speed;
-}
-
-void AMainCharacter::ChangeCrouchSpeed(float speed) {
-	charMoveComp->MaxWalkSpeedCrouched = speed;
-}
-
-void AMainCharacter::SetBaseVariables(PlayerStats* newStats) {
-	stats = newStats;
-}
-
-void AMainCharacter::SetCrouching(bool value) {
-	stats->isCrouching = value;
-	OnCrouchChanged(!stats->isCrouching);
-}
-
-void AMainCharacter::Slam() {
-	FVector* vec = new FVector(0, 0, charMoveComp->Velocity.Z - stats->GetSlamingSpeed());
-	charMoveComp->Velocity = *vec;
-}
-
-void AMainCharacter::Bash() {
-	charMoveComp->Velocity = GetActorForwardVector() * stats->GetBashingSpeed();
-}

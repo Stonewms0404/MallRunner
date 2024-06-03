@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include <Item.h>
 #include "MainCharacter.generated.h"
 
 
@@ -16,63 +17,52 @@ class MALLRUNNER_API AMainCharacter : public ACharacter
 public:
 	struct PlayerStats {
 	public:
-		PlayerStats() {
-			walkSpeed = 500;
-			sprintSpeed = 1000;
-			crouchSpeed = 100;
-			slideFriction = 1;
-			slideSpeed = 1000;
-			crouchedHalfHeight = 40;
-			halfHeightSpeed = 1;
-			isCrouching = false;
-			isSliding = false;
-			isSprinting = false;
-			isGrounded = false;
-			isSlaming = false;
-			isJumping = false;
-			isBashing = false;
-			weight = 1;
-			gravityScale = 1;
-		}
-
-		float walkSpeed, sprintSpeed, crouchSpeed, slideFriction, slideSpeed, gravityScale, crouchedHalfHeight, halfHeightSpeed;
-		bool isCrouching, isSliding, isSprinting, isGrounded, isBashing, isSlaming, isJumping;
+		UItem* item1;
+		UItem* item2;
+		float sprintSpeed, walkSpeed, crouchSpeed, slideSpeed, accelerationSpeed,
+			traction, handling, bashTime,
+			normalHeight, crouchHeight, jumpHeight, gravity;
 		int weight;
 
-		float GetSlamingSpeed() const {
-			return weight * gravityScale * 100;
-		}
-		float GetBashingSpeed() const {
-			return (sprintSpeed * 15) / weight;
+		PlayerStats() {
+			item1 = nullptr;
+			item2 = nullptr;
 		}
 	};
 
 	// Events
 	UFUNCTION(BlueprintImplementableEvent, Category = "Player Movement|Events")
-	void OnCrouchChanged(const bool Crouching);
+	void OnAccelerate(const float targetSpeed);
 	UFUNCTION(BlueprintImplementableEvent, Category = "Player Movement|Events")
-	void OnPlayerSlide(const float SlideSpeed, const float CrouchSpeed);
+	void OnCrouch(const bool Crouching, const float normalHeight, const float crouchHeight, const float sprintSpeed, const float crouchSpeed);
 	UFUNCTION(BlueprintImplementableEvent, Category = "Player Movement|Events")
-	void OnCancelSlide(const float Speed);
+	void OnSlide(const float normalHeight, const float crouchHeight, const float slideSpeed, const float crouchSpeed);
+	UFUNCTION(BlueprintImplementableEvent, Category = "Player Movement|Events")
+	void EndSlide();
+	UFUNCTION(BlueprintImplementableEvent, Category = "Player Movement|Events")
+	void OnStartBash(float BashSpeed, FVector ForwardVector);
+	UFUNCTION(BlueprintImplementableEvent, Category = "Player Stats|Events")
+	void OnChangeWeight(float BashSpeed, FVector ForwardVector);
 
-	// Sets default values for this character's properties
+	//Blueprint Methods
+	UFUNCTION(BlueprintCallable, Category = "Player Movement|Events")
+	void OnEndBash();
+	UFUNCTION(BlueprintCallable, Category = "Player Overlap|Events")
+	void AddItem(UItem* item);
+	UFUNCTION(BlueprintCallable, Category = "Player Overlap|Events")
+	void GotCaught();
+	UFUNCTION(BlueprintCallable, Category = "Player Overlap|Events")
+	void AddCollectible();
+
+	PlayerStats* stats = nullptr;
 	UCharacterMovementComponent* charMoveComp;
-	PlayerStats* stats;
 
-	// Constructor
-	AMainCharacter();
+	void InitializeStats(PlayerStats* newStats);
 
-	// Methods
-	void ChangeMoveSpeed(float);
-	void ChangeCrouchSpeed(float);
-	void SetBaseVariables(PlayerStats*);
-	void SetCrouching(bool);
-	void Bash();
-	void Slam();
 
 	// Static Methods
 	static float VectorToFloat(FVector vec) {
-		return sqrtf(powf(vec.X, 2) + powf(vec.Y, 2));
+		return sqrtf(powf(abs(vec.X), 2) + powf(abs(vec.Y), 2));
 	}
 	static float Lerp(float a, float b, float t) {
 		if (a < b)
@@ -89,6 +79,8 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	// Constructor
+	AMainCharacter();
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
