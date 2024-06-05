@@ -126,7 +126,7 @@ private:
 	UPROPERTY()
 	AMainCharacter* PlayerCharacter = nullptr;
 
-	bool freeLooking = false, isPaused = false;
+	bool freeLooking = false, isPaused = false, hasBashed = false;
 	FVector forward;
 
 	GENERATED_BODY()

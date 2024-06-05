@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include <Item.h>
+#include <BaseItem.h>
 #include "MainCharacter.generated.h"
 
 
@@ -17,17 +17,17 @@ class MALLRUNNER_API AMainCharacter : public ACharacter
 public:
 	struct PlayerStats {
 	public:
-		UItem* item1;
-		UItem* item2;
+		/*ABaseItem* item1;
+		ABaseItem* item2;*/
 		float sprintSpeed, walkSpeed, crouchSpeed, slideSpeed, accelerationSpeed,
 			traction, handling, bashTime,
 			normalHeight, crouchHeight, jumpHeight, gravity;
 		int weight;
 
-		PlayerStats() {
+		/*PlayerStats() {
 			item1 = nullptr;
 			item2 = nullptr;
-		}
+		}*/
 	};
 
 	// Events
@@ -47,8 +47,8 @@ public:
 	//Blueprint Methods
 	UFUNCTION(BlueprintCallable, Category = "Player Movement|Events")
 	void OnEndBash();
-	UFUNCTION(BlueprintCallable, Category = "Player Overlap|Events")
-	void AddItem(UItem* item);
+	/*UFUNCTION(BlueprintCallable, Category = "Player Overlap|Events")
+	void AddItem(ABaseItem* item);*/
 	UFUNCTION(BlueprintCallable, Category = "Player Overlap|Events")
 	void GotCaught();
 	UFUNCTION(BlueprintCallable, Category = "Player Overlap|Events")

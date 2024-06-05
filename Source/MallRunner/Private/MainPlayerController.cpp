@@ -168,7 +168,8 @@ void AMainPlayerController::EndWalk() {
 }
 
 void AMainPlayerController::HandleBash() {
-	PlayerCharacter->OnStartBash(PlayerCharacter->stats->sprintSpeed + 300, forward);
+	if (!hasBashed)
+		PlayerCharacter->OnStartBash(PlayerCharacter->stats->sprintSpeed + 300, forward);
 }
 
 void AMainPlayerController::StartFreeLook() {
