@@ -14,4 +14,19 @@ class MALLRUNNER_API AUseableItem : public ABaseItem
 {
 	GENERATED_BODY()
 	
+public:
+	//Events
+	UFUNCTION(BlueprintImplementableEvent, Category = "Useable|Events")
+	void GetStatBoost();
+	UFUNCTION(BlueprintImplementableEvent, Category = "Useable|Events")
+	void ThrowItem();
+	UFUNCTION(BlueprintImplementableEvent, Category = "Useable|Events")
+	void GetSpecialBoost();
+
+	//Functions
+	UFUNCTION(BlueprintCallable, Category = "Useable|Functions")
+	void CheckCrackedStatus();
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Useable|Variables")
+	float statBoost;
 };

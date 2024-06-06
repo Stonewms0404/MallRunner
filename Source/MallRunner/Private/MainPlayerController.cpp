@@ -31,6 +31,8 @@ void AMainPlayerController::OnPossess(APawn* aPawn)
 	if (ActionMove) {
 		EnhancedInputComponent->BindAction(ActionMove, ETriggerEvent::Triggered,
 			this, &AMainPlayerController::HandleMove);
+		EnhancedInputComponent->BindAction(ActionMove, ETriggerEvent::Completed,
+			this, &AMainPlayerController::StopMoving);
 	}
 
 	if (ActionLook) {
@@ -76,21 +78,16 @@ void AMainPlayerController::OnPossess(APawn* aPawn)
 			this, &AMainPlayerController::HandleCancel);
 	}
 
-	AMainCharacter::PlayerStats* baseStats = new AMainCharacter::PlayerStats;
-	baseStats->sprintSpeed = baseSprintSpeed;
-	baseStats->walkSpeed = baseWalkSpeed;
-	baseStats->crouchSpeed = baseCrouchSpeed;
-	baseStats->slideSpeed = baseSlideSpeed;
-	baseStats->traction = baseTraction;
-	baseStats->handling = baseHandling;
-	baseStats->accelerationSpeed = baseAccelerationSpeed;
-	baseStats->normalHeight = baseNormalHeight;
-	baseStats->crouchHeight = baseCrouchHeight;
-	baseStats->weight = baseWeight;
-	baseStats->gravity = baseGravity;
-	baseStats->jumpHeight = baseJumpVelocity;
+	FPlayerStats* startStats = new FPlayerStats;
+	switch (playerType) {
+	case EPlayerType::VE_Speed:			startStats = &SpeedStats;		break;
+	case EPlayerType::VE_WallRunner:	startStats = &WallRunnerStats;	break;
+	case EPlayerType::VE_Tank:			startStats = &TankStats;		break;
+	case EPlayerType::VE_Clepto:		startStats = &CleptoStats;		break;
+	case EPlayerType::VE_Stealth:		startStats = &StealthStats;		break;
+	}
 
-	PlayerCharacter->InitializeStats(baseStats);
+	PlayerCharacter->InitializeStats(startStats);
 }
 
 void AMainPlayerController::OnUnPossess()
@@ -102,6 +99,7 @@ void AMainPlayerController::OnUnPossess()
 
 void AMainPlayerController::HandleMove(const FInputActionValue & InputActionValue)
 {
+	isMoving = true;
 	const FVector2D MovementVector = InputActionValue.Get<FVector2D>();
 	forward = PlayerCharacter->GetActorForwardVector();
 
@@ -116,6 +114,10 @@ void AMainPlayerController::HandleMove(const FInputActionValue & InputActionValu
 
 }
 
+void AMainPlayerController::StopMoving(const FInputActionValue& _){
+	isMoving = false;
+}
+
 void AMainPlayerController::HandleLook(const FInputActionValue& InputActionValue)
 {
 	const FVector2D LookAxisVector = InputActionValue.Get<FVector2D>();
@@ -125,8 +127,13 @@ void AMainPlayerController::HandleLook(const FInputActionValue& InputActionValue
 }
 
 void AMainPlayerController::StartJump() {
-	PlayerCharacter->EndSlide();
-	PlayerCharacter->Jump();
+	if (PlayerCharacter->charMoveComp->IsMovingOnGround()) {
+		PlayerCharacter->EndSlide();
+		PlayerCharacter->Jump();
+	}
+	else if (isWallRunning && playerType == EPlayerType::VE_WallRunner) {
+		PlayerCharacter->WallJump();
+	}
 }
 void AMainPlayerController::EndJump() {
 	PlayerCharacter->StopJumping();
@@ -136,40 +143,40 @@ void AMainPlayerController::StartCrouch() {
 	FVector vel = PlayerCharacter->GetVelocity();
 	float speed = AMainCharacter::VectorToFloat(vel);
 
-	if (speed < PlayerCharacter->stats->sprintSpeed * 0.85)
+	if (speed < PlayerCharacter->statsptr->sprintSpeed * 0.85)
 		PlayerCharacter->OnCrouch(true,
-			PlayerCharacter->stats->normalHeight,
-			PlayerCharacter->stats->crouchHeight,
-			PlayerCharacter->stats->sprintSpeed,
-			PlayerCharacter->stats->crouchSpeed);
+			PlayerCharacter->statsptr->normalHeight,
+			PlayerCharacter->statsptr->crouchHeight,
+			PlayerCharacter->statsptr->sprintSpeed,
+			PlayerCharacter->statsptr->crouchSpeed);
 	else
 		PlayerCharacter->OnSlide(
-			PlayerCharacter->stats->normalHeight,
-			PlayerCharacter->stats->crouchHeight,
-			PlayerCharacter->stats->slideSpeed,
-			PlayerCharacter->stats->crouchSpeed);
+			PlayerCharacter->statsptr->normalHeight,
+			PlayerCharacter->statsptr->crouchHeight,
+			PlayerCharacter->statsptr->slideSpeed,
+			PlayerCharacter->statsptr->crouchSpeed);
 
 }
 void AMainPlayerController::EndCrouch() {
 	PlayerCharacter->EndSlide();
 	PlayerCharacter->OnCrouch(false,
-		PlayerCharacter->stats->normalHeight,
-		PlayerCharacter->stats->crouchHeight,
-		PlayerCharacter->stats->sprintSpeed,
-		PlayerCharacter->stats->crouchSpeed);
+		PlayerCharacter->statsptr->normalHeight,
+		PlayerCharacter->statsptr->crouchHeight,
+		PlayerCharacter->statsptr->sprintSpeed,
+		PlayerCharacter->statsptr->crouchSpeed);
 }
 
 void AMainPlayerController::StartWalk() {
-	PlayerCharacter->OnAccelerate(PlayerCharacter->stats->walkSpeed);
+	PlayerCharacter->OnAccelerate(PlayerCharacter->statsptr->walkSpeed);
 	PlayerCharacter->EndSlide();
 }
 void AMainPlayerController::EndWalk() {
-	PlayerCharacter->OnAccelerate(PlayerCharacter->stats->sprintSpeed);
+	PlayerCharacter->OnAccelerate(PlayerCharacter->statsptr->sprintSpeed);
 }
 
 void AMainPlayerController::HandleBash() {
 	if (!hasBashed)
-		PlayerCharacter->OnStartBash(PlayerCharacter->stats->sprintSpeed + 300, forward);
+		PlayerCharacter->OnStartBash(PlayerCharacter->statsptr->sprintSpeed + 300, forward);
 }
 
 void AMainPlayerController::StartFreeLook() {

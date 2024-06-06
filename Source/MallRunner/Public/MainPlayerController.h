@@ -19,89 +19,67 @@ class MALLRUNNER_API AMainPlayerController : public APlayerController
 public:
 
 	//The Input Action for Moving.
-	UPROPERTY(EditDefaultsOnly,
-		BlueprintReadOnly,
-		Category = "Player Movement|Character Movement",
-		meta = (ToolTip = "Move Input Action"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Character Movement", meta = (ToolTip = "Move Input Action"))
 	UInputAction* ActionMove = nullptr;
 
 	//The Input Action for Looking.
-	UPROPERTY(EditDefaultsOnly,
-		BlueprintReadOnly,
-		Category = "Player Movement|Character Movement",
-		meta = (ToolTip = "Look Input Action"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Character Movement", meta = (ToolTip = "Look Input Action"))
 	UInputAction* ActionLook = nullptr;
 
 	//The Input Action for Jumping.
-	UPROPERTY(EditDefaultsOnly,
-		BlueprintReadOnly,
-		Category = "Player Movement|Character Movement")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Character Movement", meta = (ToolTip = "Jump Input Action"))
 	UInputAction* ActionJump = nullptr;
 
 	//The Input Action for Crouching.
-	UPROPERTY(EditDefaultsOnly,
-		BlueprintReadOnly,
-		Category = "Player Movement|Character Movement")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Character Movement", meta = (ToolTip = "Toggle Crouch Input Action"))
 	UInputAction* ActionCrouch = nullptr;
 
 	//The Input Action for Sprinting.
-	UPROPERTY(EditDefaultsOnly,
-		BlueprintReadOnly,
-		Category = "Player Movement|Character Movement")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Character Movement", meta = (ToolTip = "Toggle Walk Input Action"))
 	UInputAction* ActionWalk = nullptr;
 
 	//The Input Action for Bashing.
-	UPROPERTY(EditDefaultsOnly,
-		BlueprintReadOnly,
-		Category = "Player Movement|Character Movement")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Character Movement", meta = (ToolTip = "Bash Input Action"))
 	UInputAction* ActionBash = nullptr;
 
 	//The Input Action for Bashing.
-	UPROPERTY(EditDefaultsOnly,
-		BlueprintReadOnly,
-		Category = "Player Movement|Character Movement")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Character Movement", meta = (ToolTip = "FreeLook Input Action"))
 	UInputAction* ActionFreeLook = nullptr;
 
 	//The Input Action for Canceling/Pausing.
-	UPROPERTY(EditDefaultsOnly,
-		BlueprintReadOnly,
-		Category = "Player Movement|Character Movement")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Character Movement", meta = (ToolTip = "Cancel Input Action"))
 	UInputAction* ActionCancel = nullptr;
 
 	//The Input Mapping Context to use.
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Character Movement")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Character Movement", meta = (ToolTip = "The Input Mapping Context"))
 	TObjectPtr<UInputMappingContext> InputMappingContext = nullptr;
 
 protected:
-	//Variables to change in the inspector
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats|SpeedCharacter")
-	float baseSprintSpeed = 1000;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats|SpeedCharacter")
-	float baseWalkSpeed = 450;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats|SpeedCharacter")
-	float baseCrouchSpeed = 200;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats|SpeedCharacter")
-	float baseSlideSpeed = 1200;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats|SpeedCharacter")
-	float baseTraction = .75;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats|SpeedCharacter")
-	float baseHandling = .5;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats|SpeedCharacter")
-	float baseAccelerationSpeed = 450;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats|SpeedCharacter")
-	float baseNormalHeight = 80;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats|SpeedCharacter")
-	float baseCrouchHeight = 40;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats|SpeedCharacter")
-	float baseJumpVelocity = 1000;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats|SpeedCharacter")
-	float baseGravity = 3;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Stats|SpeedCharacter")
-	int baseWeight = 80;
+	UPROPERTY(BlueprintReadOnly, Category = "PlayerMovement|Variables")
+	FVector forward;
+	UPROPERTY(BlueprintReadWrite, Category = "PlayerMovement|Variables")
+	bool isMoving;
+	UPROPERTY(BlueprintReadWrite, Category = "PlayerMovement|Variables")
+	bool isWallRunning;
 
+	//Variables to change in the inspector
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Player Stats|Variables", meta = (ToolTip = "The stats for the Speed Character"))
+		FPlayerStats SpeedStats;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Stats|Variables", meta = (ToolTip = "The stats for the Wall Runner Character"))
+		FPlayerStats WallRunnerStats;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Stats|Variables", meta = (ToolTip = "The stats for the Tank Character"))
+		FPlayerStats TankStats;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Stats|Variables", meta = (ToolTip = "The stats for the Clepto Character"))
+		FPlayerStats CleptoStats;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Stats|Variables", meta = (ToolTip = "The stats for the Stealth Character"))
+		FPlayerStats StealthStats;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Stats|Variables", meta = (ToolTip = "The type of character"))
+	EPlayerType playerType = EPlayerType::VE_Speed;
 
 	//Movement handles
 	void HandleMove(const FInputActionValue& InputActionValue);
+	void StopMoving(const FInputActionValue& _);
 	void HandleLook(const FInputActionValue& InputActionValue);
 	void StartJump();
 	void EndJump();
@@ -127,7 +105,7 @@ private:
 	AMainCharacter* PlayerCharacter = nullptr;
 
 	bool freeLooking = false, isPaused = false, hasBashed = false;
-	FVector forward;
+
 
 	GENERATED_BODY()
 };

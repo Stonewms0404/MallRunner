@@ -6,7 +6,8 @@ AMainCharacter::AMainCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	stats = new PlayerStats;
+	statsptr = new FPlayerStats;
+	stats = *statsptr;
 	charMoveComp = GetCharacterMovement();
 }
 
@@ -21,42 +22,49 @@ void AMainCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void AMainCharacter::InitializeStats(AMainCharacter::PlayerStats* newStats) {
-	stats = newStats;
-	charMoveComp->MaxWalkSpeed = stats->sprintSpeed;
-	charMoveComp->BrakingFriction = stats->handling;
-	charMoveComp->GroundFriction = stats->traction;
-	charMoveComp->GravityScale = stats->gravity;
-	charMoveComp->JumpZVelocity = stats->jumpHeight;
-	charMoveComp->MaxAcceleration = stats->accelerationSpeed;
-	GetCapsuleComponent()->SetCapsuleHalfHeight(stats->normalHeight);
+void AMainCharacter::InitializeStats(FPlayerStats* newStats) {
+	statsptr = newStats;
+	stats = *statsptr;
+
+	charMoveComp->MaxWalkSpeed = statsptr->sprintSpeed;
+	charMoveComp->BrakingFriction = statsptr->handling;
+	charMoveComp->GroundFriction = statsptr->traction;
+	charMoveComp->GravityScale = statsptr->gravity;
+	charMoveComp->JumpZVelocity = statsptr->jumpHeight;
+	charMoveComp->MaxAcceleration = statsptr->accelerationSpeed;
+	GetCapsuleComponent()->SetCapsuleHalfHeight(statsptr->normalHeight);
+}
+
+void AMainCharacter::ChangeWeight(int addedWeight) {
+	statsptr->weight += addedWeight;
 }
 
 void AMainCharacter::OnEndBash() {
-	charMoveComp->MaxWalkSpeed = stats->sprintSpeed;
+	charMoveComp->MaxWalkSpeed = statsptr->sprintSpeed;
 }
 
-//void AMainCharacter::AddItem(ABaseItem* item) {
-//	if (stats->item1 == nullptr)
-//		stats->item1 = item;
-//	else if (stats->item2 == nullptr)
-//		stats->item2 = item;
-//	else if (stats->item1->selected) {
-//		delete stats->item2;
-//		stats->item2 = item;
-//	}
-//	else if (stats->item2->selected) {
-//		delete stats->item1;
-//		stats->item1 = item;
-//	}
-//}
+void AMainCharacter::AddItem(AUseableItem* item) {
+	if (statsptr->item1 == nullptr)
+		statsptr->item1 = item;
+	else if (statsptr->item2 == nullptr)
+		statsptr->item2 = item;
+	else if (statsptr->item1->selected) {
+		delete statsptr->item2;
+		statsptr->item2 = item;
+	}
+	else if (statsptr->item2->selected) {
+		delete statsptr->item1;
+		statsptr->item1 = item;
+	}
+	stats = *statsptr;
+}
 
 void AMainCharacter::GotCaught() {
-
+	OnEndGame(false);
 }
 
-void AMainCharacter::AddCollectible() {
-
+void AMainCharacter::AddCollectible(ACollectibleItem* item) {
+	statsptr->collectibles.Add(item);
 }
 
 // Called to bind functionality to input
