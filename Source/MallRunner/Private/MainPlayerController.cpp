@@ -131,7 +131,7 @@ void AMainPlayerController::StartJump() {
 		PlayerCharacter->EndSlide();
 		PlayerCharacter->Jump();
 	}
-	else if (isWallRunning && playerType == EPlayerType::VE_WallRunner) {
+	else if (isWallRunning) {
 		PlayerCharacter->WallJump();
 	}
 }
