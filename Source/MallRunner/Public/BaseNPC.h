@@ -8,6 +8,8 @@
 
 USTRUCT(BlueprintType)
 struct FNPCStruct {
+	GENERATED_BODY()
+public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "NPC|Variables")
 	float sprintSpeed;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "NPC|Variables")
@@ -16,12 +18,6 @@ struct FNPCStruct {
 	float searchRadius;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "NPC|Variables")
 	float forgetTimer;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "NPC|Variables")
-	float walkSpeed;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "NPC|Variables")
-	float walkSpeed;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "NPC|Variables")
-	float walkSpeed;
 };
 
 UENUM(BlueprintType)
