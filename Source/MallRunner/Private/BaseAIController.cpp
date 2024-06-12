@@ -2,7 +2,7 @@
 
 
 #include "BaseAIController.h"
-#include <BaseNPC.h>
+#include "BaseNPC.h"
 
 
 void ABaseAIController::OnPossess(APawn* aPawn)

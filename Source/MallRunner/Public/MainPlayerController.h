@@ -68,7 +68,7 @@ protected:
 	bool isWallRunning;
 
 	//Variables to change in the inspector
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Player Stats|Variables", meta = (ToolTip = "The stats for the Speed Character"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Stats|Variables", meta = (ToolTip = "The stats for the Speed Character"))
 		FPlayerStats SpeedStats;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Stats|Variables", meta = (ToolTip = "The stats for the Wall Runner Character"))
 		FPlayerStats WallRunnerStats;
