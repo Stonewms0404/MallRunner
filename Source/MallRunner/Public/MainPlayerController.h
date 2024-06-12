@@ -16,8 +16,6 @@
 UCLASS()
 class MALLRUNNER_API AMainPlayerController : public APlayerController
 {
-	GENERATED_BODY()
-
 public:
 
 	//The Input Action for Moving.
@@ -56,9 +54,6 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Movement|Character Movement", meta = (ToolTip = "The Input Mapping Context"))
 	TObjectPtr<UInputMappingContext> InputMappingContext = nullptr;
 
-
-	//Used to store a reference to the pawn we are controlling.
-	AMainCharacter* PlayerCharacter = nullptr;
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "PlayerMovement|Variables")
 	FVector forward;
@@ -105,8 +100,12 @@ private:
 	UPROPERTY()
 	UEnhancedInputComponent* EnhancedInputComponent = nullptr;
 
+	//Used to store a reference to the pawn we are controlling.
+	UPROPERTY()
+	AMainCharacter* PlayerCharacter = nullptr;
 
 	bool freeLooking = false, isPaused = false, hasBashed = false;
 
 
+	GENERATED_BODY()
 };

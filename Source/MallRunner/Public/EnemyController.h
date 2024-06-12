@@ -13,6 +13,5 @@ UCLASS()
 class MALLRUNNER_API AEnemyController : public ABaseAIController
 {
 	GENERATED_BODY()
-public:
-
+	
 };
