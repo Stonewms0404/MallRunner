@@ -4,28 +4,22 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "BaseNPC.generated.h"
 
-USTRUCT(BlueprintType)
-struct FNPCStruct {
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "NPC|Variables")
-	float sprintSpeed;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "NPC|Variables")
-	float walkSpeed;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "NPC|Variables")
-	float searchRadius;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "NPC|Variables")
-	float forgetTimer;
-};
 
 UENUM(BlueprintType)
-enum class ENPCState : uint8 {
+enum class EEnemyState : uint8 {
 	VE_Idle = 0			UMETA(DisplayName = "Idle"),
 	VE_Patrolling = 1	UMETA(DisplayName = "Patrolling"),
 	VE_Searching = 2	UMETA(DisplayName = "Searching"),
 	VE_Chasing = 3		UMETA(DisplayName = "Chasing")
+};
+UENUM(BlueprintType)
+enum class EPedestrianState : uint8 {
+	VE_Idle = 0			UMETA(DisplayName = "Idle"),
+	VE_Patrolling = 1	UMETA(DisplayName = "Patrolling")
 };
 
 UCLASS()
@@ -37,13 +31,28 @@ public:
 	// Sets default values for this character's properties
 	ABaseNPC();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	void InitializeStats(FNPCStruct);
 
-public:	
-	// Called every frame
+protected:
+	UPROPERTY(BlueprintReadOnly, Category = "NPC|Variables")
+	FNPCStruct stats;
+
+
+	UCharacterMovementComponent* charMoveComp;
+	UCapsuleComponent* capsule;
+
+	virtual void StartIdleTimer();
+	virtual bool UseIdleTimer(float);
+	virtual void CheckPatrolLocation();
+	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+
+	FVector patrolLocation;
+	bool atPatrolLocation;
+
+	bool idleTimerStarted;
+	float idleTimer, idleTimerLength;
+public:	
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

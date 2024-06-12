@@ -75,3 +75,4 @@ DerivedDataCache/*
 Config/DefaultEngine.ini
 Config/DefaultEngine.ini
 Config/DefaultEngine.ini
+*.ini
