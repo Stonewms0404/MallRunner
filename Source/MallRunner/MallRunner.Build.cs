@@ -13,7 +13,10 @@ public class MallRunner : ModuleRules
             "CoreUObject",
             "Engine",
             "InputCore",
-            "EnhancedInput"
+            "EnhancedInput",
+            "AIModule",
+            "GameplayTasks",
+            "NavigationSystem"
             });
     }
 }

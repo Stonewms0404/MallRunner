@@ -21,24 +21,18 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "NPC|Enemy|Variables")
 	bool canSeePlayer;
 	UPROPERTY(BlueprintReadWrite, Category = "NPC|Enemy|Variables")
-	bool isFrozen;
+	bool playerLost;
 	UPROPERTY(BlueprintReadWrite, Category = "NPC|Enemy|Variables")
 	bool inCrowd;
 
+	UPROPERTY(BlueprintReadWrite, Category = "NPC|Enemy|Variables")
+	FVector patrolLocation;
 
 	UPROPERTY(BlueprintReadWrite, Category = "NPC|Enemy|Variables")
 	AMainPlayerController* playerController;
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
-
-protected:
-	UPROPERTY(BlueprintReadWrite, Category = "NPC|Enemy|Variables")
-	EEnemyState state;
-
-	void StartSearchTimer();
-	bool UseSearchTimer(float);
-	void GetPatrolLocation();
 
 private:
 	bool searchTimerStarted, isRunning;

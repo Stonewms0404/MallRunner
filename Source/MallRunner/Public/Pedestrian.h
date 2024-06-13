@@ -17,9 +17,6 @@ class MALLRUNNER_API APedestrian : public ABaseNPC
 	
 public:
 	UPROPERTY(BlueprintReadWrite, Category = "NPC|Pedestrian|Variables")
-	EPedestrianState state;
-
-	UPROPERTY(BlueprintReadWrite, Category = "NPC|Pedestrian|Variables")
 	FVector randomNPCLocation;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Player Movement|Events")
@@ -28,8 +25,6 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
-	
-	void GetPatrolLocation();
 
 private:
 	APedestrianController* controller;

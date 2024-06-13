@@ -18,13 +18,17 @@ class MALLRUNNER_API ABaseAIController : public AAIController
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditDefaultsOnly, Category = "NPC|Enemy|Variables")
-	bool canAlert;
-	UPROPERTY(EditDefaultsOnly, Category = "NPC|Enemy|Variables")
-	bool canCatch;
-	UPROPERTY(EditDefaultsOnly, Category = "NPC|Variables")
-	ENPCType npcType;
+	explicit ABaseAIController(FObjectInitializer const& ObjectInitializer);
 
+	UPROPERTY(EditDefaultsOnly, Category = "NPC|Enemy|Variables")
+	bool canAlert = false;
+	UPROPERTY(EditDefaultsOnly, Category = "NPC|Enemy|Variables")
+	bool canCatch = false;
+	UPROPERTY(EditDefaultsOnly, Category = "NPC|Variables")
+	ENPCType npcType = ENPCType::VE_Light;
+
+
+protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "NPC|Stats")
 	FNPCStruct LightEnemy;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "NPC|Stats")
