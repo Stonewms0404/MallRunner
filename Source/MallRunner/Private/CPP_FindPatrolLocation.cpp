@@ -14,11 +14,18 @@ EBTNodeResult::Type UCPP_FindPatrolLocation::ExecuteTask(UBehaviorTreeComponent&
 
 	if (auto* const controller = Cast<ABaseAIController>(OwnerComp.GetAIOwner())) {
 		if (auto* const npc = Cast<AEnemyNPC>(controller->GetPawn())) {
-			npc->GetSetPatrolLocation();
-			OwnerComp.GetBlackboardComponent()->SetValueAsVector(FName("PatrolLocation"), npc->patrolLocation);
+			auto const Origin = npc->GetActorLocation();
 
-			FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
-			return EBTNodeResult::Succeeded;
+			if (auto* const NavSys = UNavigationSystemV1::GetCurrent(GetWorld())) {
+				FNavLocation loc;
+				if (NavSys->GetRandomReachablePointInRadius(Origin, SearchRadius, loc)) {
+					OwnerComp.GetBlackboardComponent()->SetValueAsVector(FName("PatrolLocation"), loc.Location);
+
+					FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
+					return EBTNodeResult::Succeeded;
+				}
+			}
+
 		}
 	}
 

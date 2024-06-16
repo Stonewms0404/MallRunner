@@ -14,6 +14,7 @@ public class MallRunner : ModuleRules
             "Engine",
             "InputCore",
             "EnhancedInput",
+            "HeadMountedDisplay",
             "AIModule",
             "GameplayTasks",
             "NavigationSystem"

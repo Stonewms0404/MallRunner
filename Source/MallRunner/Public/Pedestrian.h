@@ -15,13 +15,6 @@ class MALLRUNNER_API APedestrian : public ABaseNPC
 {
 	GENERATED_BODY()
 	
-public:
-	UPROPERTY(BlueprintReadWrite, Category = "NPC|Pedestrian|Variables")
-	FVector randomNPCLocation;
-
-	UFUNCTION(BlueprintImplementableEvent, Category = "Player Movement|Events")
-	void GetRandomNPCLocation();
-
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
@@ -29,6 +22,4 @@ protected:
 private:
 	APedestrianController* controller;
 	float speed;
-
-	float GetRandomSpeed();
 };

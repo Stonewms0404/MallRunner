@@ -52,28 +52,24 @@ public:
 	// Sets default values for this character's properties
 	ABaseNPC();
 
-	void InitializeStats(FNPCStruct);
+	void InitializeStats(FNPCStruct*);
 
 	UBehaviorTree* GetBehaviorTree() const;
 
-	UFUNCTION(BlueprintImplementableEvent, Category = "NPC|AI|Events")
-	void GetSetPatrolLocation();
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "NPC|Variables")
 	FNPCStruct stats;
+	FNPCStruct* statsptr;
 
 
 	UCharacterMovementComponent* charMoveComp;
-	UCapsuleComponent* capsule;
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "NPC|AI")
 	UBehaviorTree* Tree = nullptr;
-public:	
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 };

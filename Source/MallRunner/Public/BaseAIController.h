@@ -2,6 +2,8 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include <EnhancedInputComponent.h>
+#include "GameFramework/CharacterMovementComponent.h"
 #include "BaseNPC.h"
 #include "BaseAIController.generated.h"
 
@@ -20,12 +22,15 @@ class MALLRUNNER_API ABaseAIController : public AAIController
 public:
 	explicit ABaseAIController(FObjectInitializer const& ObjectInitializer);
 
+
 	UPROPERTY(EditDefaultsOnly, Category = "NPC|Enemy|Variables")
 	bool canAlert = false;
 	UPROPERTY(EditDefaultsOnly, Category = "NPC|Enemy|Variables")
 	bool canCatch = false;
 	UPROPERTY(EditDefaultsOnly, Category = "NPC|Variables")
 	ENPCType npcType = ENPCType::VE_Light;
+
+	ABaseNPC* npc;
 
 
 protected:
@@ -38,4 +43,7 @@ protected:
 
 	virtual void OnPossess(APawn* aPawn) override;
 	virtual void OnUnPossess() override;
+
+private:
+
 };

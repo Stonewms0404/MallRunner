@@ -3,6 +3,7 @@
 
 #include "BaseAIController.h"
 #include "BaseNPC.h"
+#include <EnhancedInputSubsystems.h>
 
 
 ABaseAIController::ABaseAIController(FObjectInitializer const& ObjectInitializer) {
@@ -13,25 +14,28 @@ void ABaseAIController::OnPossess(APawn* aPawn)
 {
 	Super::OnPossess(aPawn);
 	if (ABaseNPC* const npcPawn = Cast<ABaseNPC>(aPawn)) {
+		npc = npcPawn;
+
 		switch (npcType) {
 		case ENPCType::VE_Light:
-			npcPawn->InitializeStats(LightEnemy);
+			npc->InitializeStats(&LightEnemy);
 			break;
 		case ENPCType::VE_Normal:
-			npcPawn->InitializeStats(NormalEnemy);
+			npc->InitializeStats(&NormalEnemy);
 			break;
 		case ENPCType::VE_Heavy:
-			npcPawn->InitializeStats(HeavyEnemy);
+			npc->InitializeStats(&HeavyEnemy);
 			break;
 		}
 		
-		if (UBehaviorTree* const tree = npcPawn->GetBehaviorTree()) {
+		if (UBehaviorTree* const tree = npc->GetBehaviorTree()) {
 			UBlackboardComponent* b;
 			UseBlackboard(tree->BlackboardAsset, b);
 			Blackboard = b;
 			RunBehaviorTree(tree);
 		}
 	}
+
 }
 
 void ABaseAIController::OnUnPossess()

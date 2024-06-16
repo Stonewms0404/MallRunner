@@ -8,20 +8,21 @@ ABaseNPC::ABaseNPC()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	statsptr = new FNPCStruct();
+	stats = *statsptr;
 
-	capsule = GetCapsuleComponent();
 	charMoveComp = GetCharacterMovement();
 }
 
-void ABaseNPC::InitializeStats(FNPCStruct baseStats) {
-	stats = baseStats;
+void ABaseNPC::InitializeStats(FNPCStruct* baseStats) {
+	statsptr = baseStats;
+	stats = *statsptr;
 
-	charMoveComp->MaxWalkSpeed = stats.walkSpeed;
-	charMoveComp->BrakingFriction = stats.handling;
-	charMoveComp->GroundFriction = stats.traction;
-	charMoveComp->MaxAcceleration = stats.accelerationSpeed;
-	charMoveComp->GravityScale = stats.gravity;
-	capsule->SetCapsuleHalfHeight(stats.normalHeight);
+	charMoveComp->MaxWalkSpeed = statsptr->walkSpeed;
+	charMoveComp->BrakingFriction = statsptr->handling;
+	charMoveComp->GroundFriction = statsptr->traction;
+	charMoveComp->MaxAcceleration = statsptr->accelerationSpeed;
+	charMoveComp->GravityScale = statsptr->gravity;
 }
 
 UBehaviorTree* ABaseNPC::GetBehaviorTree() const
@@ -35,7 +36,6 @@ void ABaseNPC::BeginPlay()
 	Super::BeginPlay();
 	
 	charMoveComp = GetCharacterMovement();
-	capsule = GetCapsuleComponent();
 }
 
 

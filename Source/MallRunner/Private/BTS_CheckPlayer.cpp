@@ -15,6 +15,7 @@ void UBTS_CheckPlayer::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMe
 		if (auto* const npc = Cast<AEnemyNPC>(controller->GetPawn())) {
 			OwnerComp.GetBlackboardComponent()->SetValueAsBool(FName("CanSeePlayer"), npc->canSeePlayer);
 			OwnerComp.GetBlackboardComponent()->SetValueAsBool(FName("PlayerLost"), npc->playerLost);
+			OwnerComp.GetBlackboardComponent()->SetValueAsVector(FName("LastPlayerLocation"), npc->lastPlayerLocation);
 		}
 	}
 }
