@@ -3,6 +3,6 @@
 
 #include "UseableItem.h"
 
-void AUseableItem::CheckCrackedStatus() {
+AUseableItem::AUseableItem() {
 	isCracked = (sin(rand()) + 1) / 2 >= 0.5;
 }

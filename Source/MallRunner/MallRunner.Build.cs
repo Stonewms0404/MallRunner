@@ -17,7 +17,8 @@ public class MallRunner : ModuleRules
             "HeadMountedDisplay",
             "AIModule",
             "GameplayTasks",
-            "NavigationSystem"
+            "NavigationSystem",
+            "UMG"
             });
     }
 }

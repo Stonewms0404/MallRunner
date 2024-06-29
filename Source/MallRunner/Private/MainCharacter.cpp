@@ -59,10 +59,6 @@ void AMainCharacter::AddItem(AUseableItem* item) {
 	stats = *statsptr;
 }
 
-void AMainCharacter::GotCaught() {
-	OnEndGame(false);
-}
-
 void AMainCharacter::AddCollectible(ACollectibleItem* item) {
 	statsptr->collectibles.Add(item);
 }

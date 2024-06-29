@@ -15,6 +15,8 @@ class MALLRUNNER_API AUseableItem : public ABaseItem
 	GENERATED_BODY()
 	
 public:
+	AUseableItem();
+
 	//Events
 	UFUNCTION(BlueprintImplementableEvent, Category = "Useable|Events")
 	void GetStatBoost();
@@ -23,10 +25,11 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Useable|Events")
 	void GetSpecialBoost();
 
-	//Functions
-	UFUNCTION(BlueprintCallable, Category = "Useable|Functions")
-	void CheckCrackedStatus();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Useable|Variables")
 	float statBoost;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Useable|Variables")
+	float specialBoost;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Useable|Variables")
+	float explosionRadius;
 };
